@@ -25,7 +25,7 @@ class AuthController extends Controller
         try {
             $credentials = request(['email', 'password']);
             if ( !$token = Auth::guard('api')->attempt($credentials, true) ) {
-                return ResponseHelper::all(['error' => 'Unauthorized'], 401);
+                return ResponseHelper::error('Mật khẩu hoặc email không đúng', []);
             }
 
             return $this->respondWithToken($token);
