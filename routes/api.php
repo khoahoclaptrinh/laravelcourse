@@ -19,7 +19,13 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::prefix('v1')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Api\V1\Post\PostController::class,'index'])->name('api.post.index');
+
+    //News
+    Route::prefix('news')->group(function (){
+        Route::get('/{id}', [\App\Http\Controllers\Api\V1\Post\PostController::class,'show'])->name('api.post.show');
+    });
+
+
     Route::post('login', [\App\Http\Controllers\Auth\AuthController::class,'login']);
     Route::middleware('jwt.verify')->group(function () {
 
