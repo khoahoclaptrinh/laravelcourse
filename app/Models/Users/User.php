@@ -12,6 +12,8 @@ class User extends Authenticatable implements  JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const TABLE = 'users';
+    protected $table = self::TABLE;
     /**
      * The attributes that are mass assignable.
      *
