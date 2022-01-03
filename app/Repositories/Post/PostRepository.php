@@ -33,15 +33,15 @@ class PostRepository extends BaseRepository
         ], $params);
 
         $result = Post::select(
-            Post::TABLE . '.*',
-            Category::TABLE . '.name AS category_name',
-            Module::TABLE . '.name AS module_name',
-            User::TABLE . '.name AS full_name',
-            User::TABLE . '.phone AS user_phone',
+            Post::TABLE . '.*'
+           // Category::TABLE . '.name AS category_name',
+          //  Module::TABLE . '.name AS module_name',
+          //  User::TABLE . '.name AS full_name',
+          //  User::TABLE . '.phone AS user_phone'
         );
-        $result->leftJoin(Category::TABLE, Post::TABLE . '.category_id', '=', Category::TABLE . '.id');
-        $result->leftJoin(Module::TABLE, Post::TABLE . '.module_id', '=', Module::TABLE . '.id');
-        $result->leftJoin(User::TABLE, Post::TABLE . '.user_id', '=', User::TABLE . '.id');
+        //$result->leftJoin(Category::TABLE, Post::TABLE . '.category_id', '=', Category::TABLE . '.id');
+        //$result->leftJoin(Module::TABLE, Post::TABLE . '.module_id', '=', Module::TABLE . '.id');
+        //$result->leftJoin(User::TABLE, Post::TABLE . '.user_id', '=', User::TABLE . '.id');
 
         if ( !empty($params['search']) ) {
             $result->where(Post::TABLE . '.name', 'LIKE', '%' . $params['search'] . '%');
@@ -56,7 +56,7 @@ class PostRepository extends BaseRepository
         }
 
         if ( !empty($params['module_id']) && is_array($params['module_id']) ) {
-            $result->whereIn(Post::TABLE . '.module_id', $params['module_id']);
+            //$result->whereIn(Post::TABLE . '.module_id', $params['module_id']);
         }
 
         if ( !empty($params['start_date']) && empty($params['end_date']) ) {

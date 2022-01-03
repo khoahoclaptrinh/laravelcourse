@@ -21,9 +21,21 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = $this->postRepository->getAll();
+        $params = $request->all();
+        $params['page'] = !empty($request->page) ? $request->page : 1;
+        $params['search'] = $request->q ?? null;
+        $posts = $this->postRepository->getAll($params);
+        $items = $posts->toArray();
+        $data = [
+            'current_page'=>!empty($request->page) ? $request->page : 1,
+            'total'=>!empty($posts->total()) ? $posts->total() : 0,
+            'perPage'=>!empty($posts->perPage()) ? $posts->perPage() : 2,
+            'items' =>$items['data'],
+            'to' =>$items['to']
+        ];
+        return ResponseHelper::success('Thành công',$data);
     }
 
     /**

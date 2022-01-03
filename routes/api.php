@@ -22,6 +22,7 @@ Route::prefix('v1')->group(function () {
 
     //News
     Route::prefix('news')->group(function (){
+        Route::get('/', [\App\Http\Controllers\Api\V1\Post\PostController::class,'index'])->name('api.post.index');
         Route::get('/{id}', [\App\Http\Controllers\Api\V1\Post\PostController::class,'show'])->name('api.post.show');
     });
 
