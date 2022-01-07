@@ -89,5 +89,6 @@ class Handler extends ExceptionHandler
                 return ResponseHelper::error('ThrottleRequestsException',null);
             }
         }
+        return parent::render($request, $exception);
     }
 }
