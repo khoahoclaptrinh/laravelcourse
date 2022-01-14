@@ -46,49 +46,51 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
-
-
     }
-    public function render($request, Throwable $exception){
-        if ($request->is('api/*'))
-        {
-            $exception->getStatusCode();
+    public function render($request, Throwable $exception)
+    {
+        return parent::render($request, $exception);
+
+        if ($request->is('api/*')) {
+            // $exception->getStatusCode();
 
             if ($exception instanceof NotFoundHttpException) {
-                return ResponseHelper::error('NotFoundHttpException',null);
+                return ResponseHelper::error('NotFoundHttpException', null);
             }
 
             if ($exception instanceof ModelNotFoundException) {
-                return ResponseHelper::error('ModelNotFoundException',null);
+                return ResponseHelper::error('ModelNotFoundException', null);
             }
 
             if ($exception instanceof HttpResponseException) {
-                return ResponseHelper::error('HttpResponseException',null);
+                return ResponseHelper::error('HttpResponseException', null);
             }
 
             if ($exception instanceof InvalidArgumentException) {
-                return ResponseHelper::error('InvalidArgumentException',null);
+                return ResponseHelper::error('InvalidArgumentException', null);
             }
 
             if ($exception instanceof BadMethodCallException) {
-                return ResponseHelper::error('BadMethodCallException',null);
+                return ResponseHelper::error('BadMethodCallException', null);
             }
 
 
             if ($exception instanceof AuthenticationException) {
                 //$exception = $this->unauthenticated($request, $exception);
-                return ResponseHelper::error('AuthenticationException',null);
+                return ResponseHelper::error('AuthenticationException', null);
             }
 
             if ($exception instanceof ValidationException) {
                 //$exception = $this->convertValidationExceptionToResponse($exception, $request);
-                return ResponseHelper::error('ValidationException',null);
+                //$ss = $exception->validator->errors();
+                return ResponseHelper::error('ValidationException', []);
             }
 
             if ($exception instanceof ThrottleRequestsException) {
-                return ResponseHelper::error('ThrottleRequestsException',null);
+                return ResponseHelper::error('ThrottleRequestsException', []);
             }
         }
+
         return parent::render($request, $exception);
     }
 }

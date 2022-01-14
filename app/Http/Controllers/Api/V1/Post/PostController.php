@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Post;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Post\StorePostRequest;
 use App\Repositories\Post\PostRepository;
 use Illuminate\Http\Request;
 
@@ -29,13 +30,13 @@ class PostController extends Controller
         $posts = $this->postRepository->getAll($params);
         $items = $posts->toArray();
         $data = [
-            'current_page'=>!empty($request->page) ? $request->page : 1,
-            'total'=>!empty($posts->total()) ? $posts->total() : 0,
-            'perPage'=>!empty($posts->perPage()) ? $posts->perPage() : 2,
-            'items' =>$items['data'],
-            'to' =>$items['to']
+            'current_page' => !empty($request->page) ? $request->page : 1,
+            'total' => !empty($posts->total()) ? $posts->total() : 0,
+            'perPage' => !empty($posts->perPage()) ? $posts->perPage() : 2,
+            'items' => $items['data'],
+            'to' => $items['to']
         ];
-        return ResponseHelper::success('Thành công',$data);
+        return ResponseHelper::success('Thành công', $data);
     }
 
     /**
@@ -54,9 +55,14 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
+        $params = $request->only(['name', 'description']);
+        $post = $this->postRepository->create($params);
+        if (!$post) {
+            return ResponseHelper::error('Không thể thêm bài viết.Vui lòng hẹn lại sau', []);
+        }
+        return ResponseHelper::success('Thành công', $post);
     }
 
     /**
@@ -68,11 +74,11 @@ class PostController extends Controller
     public function show($id)
     {
         $post = $this->postRepository->getByID($id);
-        if(!$post){
+        if (!$post) {
             return ResponseHelper::error('Dữ liệu không tồn tại trong hệ thống');
         }
 
-        return ResponseHelper::success('Thành công',$post);
+        return ResponseHelper::success('Thành công', $post);
     }
 
     /**

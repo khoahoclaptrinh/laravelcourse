@@ -19,14 +19,12 @@ class PostTableSeeder extends Seeder
     public function run()
     {
         $faker =  Factory::create();
-        $n = 200;
-        for ($i = 0; $i <=$n ;$i++) {
+        $n = 500;
+        for ($i = 0; $i <= $n; $i++) {
             DB::table('posts')->insert([
                 'name' => $faker->name,
-                'description' =>'<p>'.$faker->paragraph($nbSentences = 10, $variableNbSentences = true).'</p>'
+                'description' => '<p>' . $faker->paragraph($nbSentences = 10, $variableNbSentences = true) . '</p>'
             ]);
         }
-
-
     }
 }
